@@ -10,13 +10,26 @@ export default function AppLayout() {
             screenOptions={{
                 tabBarStyle: {
                     backgroundColor: theme.colors.card,
+                    paddingVertical: 10,
+                    height: 60,
+                    shadowColor: "#000",
+                    shadowOpacity: 0.1,
+                    shadowRadius: 10,
+                    elevation: 4,
                 },
                 tabBarActiveTintColor: theme.colors.primary,
                 tabBarInactiveTintColor: theme.colors.text,
                 headerStyle: {
                     backgroundColor: theme.colors.card,
+                    elevation: 2,
+                    shadowOpacity: 0.1,
+                    shadowRadius: 5,
                 },
                 headerTintColor: theme.colors.text,
+                tabBarLabelStyle: {
+                    fontSize: 12,
+                    fontWeight: "600",
+                },
             }}
         >
             <Tabs.Screen
@@ -24,7 +37,11 @@ export default function AppLayout() {
                 options={{
                     title: "Home",
                     tabBarIcon: ({ color, size }) => (
-                        <Ionicons name="home" size={size} color={color} />
+                        <Ionicons
+                            name="home-outline"
+                            size={size - 2}
+                            color={color}
+                        />
                     ),
                 }}
             />
@@ -33,7 +50,11 @@ export default function AppLayout() {
                 options={{
                     title: "Profile",
                     tabBarIcon: ({ color, size }) => (
-                        <Ionicons name="person" size={size} color={color} />
+                        <Ionicons
+                            name="person-outline"
+                            size={size - 2}
+                            color={color}
+                        />
                     ),
                 }}
             />

@@ -62,13 +62,15 @@ export function RegisterForm() {
         >
             {({ handleSubmit, values, setFieldValue, errors, touched }) => (
                 <View style={styles.container}>
-                    <Avatar
-                        source={values.avatar}
-                        onPress={async () => {
-                            const uri = await handleImagePick();
-                            if (uri) setFieldValue("avatar", uri);
-                        }}
-                    />
+                    <View style={styles.avatarContainer}>
+                        <Avatar
+                            source={values.avatar}
+                            onPress={async () => {
+                                const uri = await handleImagePick();
+                                if (uri) setFieldValue("avatar", uri);
+                            }}
+                        />
+                    </View>
                     <Input
                         label="Name"
                         value={values.name}
@@ -127,4 +129,7 @@ const styles = StyleSheet.create({
         color: "red",
         marginTop: 8,
     },
+    avatarContainer:{
+        alignItems: "center",
+    }
 });

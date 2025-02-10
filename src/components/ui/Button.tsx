@@ -4,6 +4,7 @@ import {
     Text,
     StyleSheet,
     ActivityIndicator,
+    ViewStyle,
 } from "react-native";
 
 interface ButtonProps {
@@ -12,6 +13,7 @@ interface ButtonProps {
     variant?: "solid" | "outline";
     loading?: boolean;
     disabled?: boolean;
+    style?: ViewStyle;
 }
 
 export function Button({
@@ -20,6 +22,7 @@ export function Button({
     variant = "solid",
     loading = false,
     disabled = false,
+    style,
 }: ButtonProps) {
     const { theme } = useTheme();
 
@@ -28,16 +31,15 @@ export function Button({
             style={[
                 styles.button,
                 {
-                    backgroundColor:
-                        variant === "solid"
-                            ? theme.colors.primary
-                            : "transparent",
+                    backgroundColor: variant === "solid" ? theme.colors.primary : "transparent",
                     borderColor: theme.colors.primary,
                     borderWidth: variant === "outline" ? 1 : 0,
-                    opacity: disabled ? 0.5 : 1,
+                    opacity: disabled || loading ? 0.6 : 1,
                 },
+                style, // Allow custom styles
             ]}
             onPress={onPress}
+            activeOpacity={0.7}
             disabled={disabled || loading}
         >
             {loading ? (
@@ -49,10 +51,7 @@ export function Button({
                     style={[
                         styles.text,
                         {
-                            color:
-                                variant === "solid"
-                                    ? "white"
-                                    : theme.colors.primary,
+                            color: variant === "solid" ? "white" : theme.colors.primary,
                         },
                     ]}
                 >
@@ -65,10 +64,12 @@ export function Button({
 
 const styles = StyleSheet.create({
     button: {
-        height: 48,
-        borderRadius: 8,
+        height: 50,
+        borderRadius: 10,
         alignItems: "center",
         justifyContent: "center",
+        paddingHorizontal: 20,
+        minWidth: 150,
     },
     text: {
         fontSize: 16,

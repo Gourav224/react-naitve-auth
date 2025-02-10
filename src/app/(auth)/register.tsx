@@ -5,6 +5,8 @@ import {
     KeyboardAvoidingView,
     Platform,
     Text,
+    TouchableWithoutFeedback,
+    Keyboard,
 } from "react-native";
 import { Stack } from "expo-router";
 import { RegisterForm } from "@/src/components/forms/RegisterForm";
@@ -19,9 +21,7 @@ export default function RegisterScreen() {
                 options={{
                     title: "Create Account",
                     headerShadowVisible: false,
-                    headerStyle: {
-                        backgroundColor: theme.colors.background,
-                    },
+                    headerStyle: { backgroundColor: theme.colors.background },
                     headerTintColor: theme.colors.text,
                 }}
             />
@@ -33,28 +33,36 @@ export default function RegisterScreen() {
                     { backgroundColor: theme.colors.background },
                 ]}
             >
-                <ScrollView
-                    showsVerticalScrollIndicator={false}
-                    contentContainerStyle={styles.scrollContent}
-                >
-                    <View style={styles.header}>
-                        <Text
-                            style={[styles.title, { color: theme.colors.text }]}
-                        >
-                            Welcome!
-                        </Text>
-                        <Text
-                            style={[
-                                styles.subtitle,
-                                { color: theme.colors.text + "80" },
-                            ]}
-                        >
-                            Create an account to get started
-                        </Text>
-                    </View>
+                <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+                    <ScrollView
+                        showsVerticalScrollIndicator={false}
+                        contentContainerStyle={styles.scrollContent}
+                        keyboardShouldPersistTaps="handled"
+                    >
+                        <View style={styles.header}>
+                            <Text
+                                style={[
+                                    styles.title,
+                                    { color: theme.colors.text },
+                                ]}
+                            >
+                                Welcome! 🎉
+                            </Text>
+                            <Text
+                                style={[
+                                    styles.subtitle,
+                                    { color: theme.colors.text + "99" },
+                                ]}
+                            >
+                                Create an account to get started
+                            </Text>
+                        </View>
 
-                    <RegisterForm />
-                </ScrollView>
+                        <View style={styles.formContainer}>
+                            <RegisterForm />
+                        </View>
+                    </ScrollView>
+                </TouchableWithoutFeedback>
             </KeyboardAvoidingView>
         </>
     );
@@ -66,18 +74,25 @@ const styles = StyleSheet.create({
     },
     scrollContent: {
         flexGrow: 1,
+        justifyContent: "center",
+        paddingHorizontal: 6, // Increased horizontal padding for better spacing
+        paddingVertical: 16, // Added vertical padding for better spacing
     },
     header: {
-        paddingHorizontal: 20,
-        paddingTop: 20,
-        paddingBottom: 12,
-        gap: 8,
+        alignItems: "center",
+        marginBottom: 36, // Increased margin for a better separation between header and form
     },
     title: {
-        fontSize: 24,
-        fontWeight: "bold",
+        fontSize: 28, // Increased font size for better readability
+        fontWeight: "700",
+        textAlign: "center", // Ensuring title is centered
     },
     subtitle: {
-        fontSize: 16,
+        fontSize: 18,
+        textAlign: "center",
+        marginTop: 6,
+    },
+    formContainer: {
+        paddingBottom: 20, // Added extra padding for better spacing at the bottom
     },
 });

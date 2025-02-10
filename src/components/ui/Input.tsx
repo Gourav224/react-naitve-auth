@@ -5,18 +5,21 @@ import {
     TextInput,
     StyleSheet,
     TextInputProps,
+    TextStyle,
+    ViewStyle,
 } from "react-native";
 
 interface InputProps extends TextInputProps {
     label: string;
     error?: string;
+    containerStyle?: ViewStyle;
 }
 
-export function Input({ label, error, ...props }: InputProps) {
+export function Input({ label, error, containerStyle, ...props }: InputProps) {
     const { theme } = useTheme();
 
     return (
-        <View style={styles.container}>
+        <View style={[styles.container, containerStyle]}>
             <Text style={[styles.label, { color: theme.colors.text }]}>
                 {label}
             </Text>
@@ -31,7 +34,7 @@ export function Input({ label, error, ...props }: InputProps) {
                             : theme.colors.border,
                     },
                 ]}
-                placeholderTextColor={theme.colors.text + "80"}
+                placeholderTextColor={theme.colors.text + "99"}
                 {...props}
             />
             {error && (
@@ -45,21 +48,23 @@ export function Input({ label, error, ...props }: InputProps) {
 
 const styles = StyleSheet.create({
     container: {
-        gap: 4,
+        gap: 6,
+        marginBottom: 12,
     },
     label: {
-        fontSize: 16,
-        fontWeight: "500",
+        fontSize: 15,
+        fontWeight: "600",
     },
     input: {
-        height: 48,
-        borderWidth: 1,
-        borderRadius: 8,
+        height: 50,
+        borderWidth: 1.5,
+        borderRadius: 10,
         paddingHorizontal: 16,
         fontSize: 16,
     },
     error: {
         fontSize: 12,
         marginTop: 4,
+        fontWeight: "500",
     },
 });

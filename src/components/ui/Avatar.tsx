@@ -1,4 +1,4 @@
-import { View, Image, TouchableOpacity, StyleSheet } from "react-native";
+import { View, Image, TouchableOpacity, StyleSheet, ViewStyle } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { useTheme } from "@/src/context/ThemeProvider";
 
@@ -6,6 +6,7 @@ interface AvatarProps {
     source?: string;
     size?: number;
     onPress?: () => void;
+    style?: ViewStyle;
 }
 
 export function Avatar({ source, size = 100, onPress }: AvatarProps) {
@@ -20,8 +21,12 @@ export function Avatar({ source, size = 100, onPress }: AvatarProps) {
                     width: size,
                     height: size,
                     borderRadius: size / 2,
+                    borderColor: theme.colors.border,
                 },
             ]}
+            onError={(e) =>
+                console.log("Image failed to load", e.nativeEvent.error)
+            }
         />
     ) : (
         <View
@@ -32,6 +37,7 @@ export function Avatar({ source, size = 100, onPress }: AvatarProps) {
                     height: size,
                     borderRadius: size / 2,
                     backgroundColor: theme.colors.card,
+                    borderColor: theme.colors.border,
                 },
             ]}
         >
@@ -44,7 +50,15 @@ export function Avatar({ source, size = 100, onPress }: AvatarProps) {
     );
 
     if (onPress) {
-        return <TouchableOpacity onPress={onPress}>{content}</TouchableOpacity>;
+        return (
+            <TouchableOpacity
+                onPress={onPress}
+                activeOpacity={0.7}
+                style={{ borderRadius: size / 2 }}
+            >
+                {content}
+            </TouchableOpacity>
+        );
     }
 
     return content;
@@ -52,12 +66,12 @@ export function Avatar({ source, size = 100, onPress }: AvatarProps) {
 
 const styles = StyleSheet.create({
     image: {
-        backgroundColor: "#ccc",
+        resizeMode: "cover",
+        borderWidth: 2,
     },
     placeholder: {
         alignItems: "center",
         justifyContent: "center",
-        borderWidth: 1,
-        borderColor: "#ccc",
+        borderWidth: 2,
     },
 });

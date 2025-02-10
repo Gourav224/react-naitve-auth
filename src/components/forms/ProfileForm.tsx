@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { View, StyleSheet, Text } from "react-native";
+import { View, StyleSheet, Text, TouchableOpacity } from "react-native";
 import { Formik } from "formik";
 import * as ImagePicker from "expo-image-picker";
 import * as yup from "yup";
@@ -30,6 +30,7 @@ interface ProfileFormProps {
 
 export function ProfileForm({ user }: ProfileFormProps) {
     const [error, setError] = useState("");
+    const [successMessage, setSuccessMessage] = useState("");
     const { updateProfile } = useAuth();
 
     const handleImagePick = async () => {
@@ -48,6 +49,8 @@ export function ProfileForm({ user }: ProfileFormProps) {
     const handleSubmit = async (values: Partial<User>) => {
         try {
             await updateProfile(values);
+            setSuccessMessage("Profile updated successfully!");
+            setTimeout(() => setSuccessMessage(""), 3000); // Clear success message after 3 seconds
         } catch (err) {
             setError(err instanceof Error ? err.message : "An error occurred");
         }
@@ -67,20 +70,44 @@ export function ProfileForm({ user }: ProfileFormProps) {
         >
             {({ handleSubmit, values, setFieldValue, errors, touched }) => (
                 <View style={styles.container}>
-                    <Avatar
-                        source={values.avatar}
-                        size={120}
-                        onPress={async () => {
-                            const uri = await handleImagePick();
-                            if (uri) setFieldValue("avatar", uri);
-                        }}
-                    />
+                    {/* Avatar Section */}
+                    <View style={styles.avatarContainer}>
+                        <Avatar
+                            source={values.avatar}
+                            size={120}
+                            onPress={async () => {
+                                const uri = await handleImagePick();
+                                if (uri) setFieldValue("avatar", uri);
+                            }}
+                        />
+                        <TouchableOpacity
+                            onPress={async () => {
+                                const uri = await handleImagePick();
+                                if (uri) setFieldValue("avatar", uri);
+                            }}
+                        >
+                            <Text
+                                style={[
+                                    styles.avatarLabel,
+                                    { color: values.avatar ? "green" : "gray" },
+                                ]}
+                            >
+                                {values.avatar
+                                    ? "Tap to change avatar"
+                                    : "Tap to select avatar"}
+                            </Text>
+                        </TouchableOpacity>
+                    </View>
+
+                    {/* Name Input */}
                     <Input
                         label="Name"
                         value={values.name}
                         onChangeText={(text) => setFieldValue("name", text)}
                         error={touched.name ? errors.name : undefined}
                     />
+
+                    {/* Email Input */}
                     <Input
                         label="Email"
                         value={values.email}
@@ -89,11 +116,15 @@ export function ProfileForm({ user }: ProfileFormProps) {
                         keyboardType="email-address"
                         autoCapitalize="none"
                     />
+
+                    {/* Gender Picker */}
                     <GenderPicker
                         value={values.gender}
                         onChange={(value) => setFieldValue("gender", value)}
                         error={touched.gender ? errors.gender : undefined}
                     />
+
+                    {/* Date of Birth Picker */}
                     <DateInput
                         label="Date of Birth"
                         value={values.dateOfBirth}
@@ -104,10 +135,22 @@ export function ProfileForm({ user }: ProfileFormProps) {
                                 : undefined
                         }
                     />
+
+                    {/* Error Display */}
                     {error ? <Text style={styles.error}>{error}</Text> : null}
+
+                    {/* Success Message */}
+                    {successMessage ? (
+                        <Text style={styles.successMessage}>
+                            {successMessage}
+                        </Text>
+                    ) : null}
+
+                    {/* Submit Button */}
                     <Button
                         onPress={() => handleSubmit()}
                         title="Update Profile"
+                        style={styles.submitButton}
                     />
                 </View>
             )}
@@ -120,8 +163,31 @@ const styles = StyleSheet.create({
         padding: 20,
         gap: 16,
     },
+    avatarContainer: {
+        alignItems: "center",
+        marginBottom: 20,
+    },
+    avatarLabel: {
+        fontSize: 14,
+        marginTop: 8,
+        fontWeight: "600",
+        textAlign: "center",
+    },
     error: {
         color: "red",
         marginTop: 8,
+        fontSize: 14,
+    },
+    successMessage: {
+        color: "green",
+        marginTop: 8,
+        fontSize: 16,
+        textAlign: "center",
+        fontWeight: "600",
+    },
+    submitButton: {
+        marginTop: 20,
+        paddingVertical: 12,
+        borderRadius: 8,
     },
 });

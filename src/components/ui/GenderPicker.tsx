@@ -11,6 +11,8 @@ interface GenderPickerProps {
 export function GenderPicker({ value, onChange, error }: GenderPickerProps) {
     const { theme } = useTheme();
 
+    const borderColor = error ? theme.colors.error : theme.colors.border;
+
     return (
         <View style={styles.container}>
             <Text style={[styles.label, { color: theme.colors.text }]}>
@@ -21,9 +23,7 @@ export function GenderPicker({ value, onChange, error }: GenderPickerProps) {
                     styles.pickerContainer,
                     {
                         backgroundColor: theme.colors.card,
-                        borderColor: error
-                            ? theme.colors.error
-                            : theme.colors.border,
+                        borderColor: borderColor,
                     },
                 ]}
             >
@@ -32,6 +32,8 @@ export function GenderPicker({ value, onChange, error }: GenderPickerProps) {
                     onValueChange={onChange}
                     style={[styles.picker, { color: theme.colors.text }]}
                     dropdownIconColor={theme.colors.text}
+                    accessibilityLabel="Gender Picker"
+                    accessibilityHint="Select a gender from the options"
                 >
                     <Picker.Item label="Select gender" value="" />
                     <Picker.Item label="Male" value="male" />
@@ -50,19 +52,23 @@ export function GenderPicker({ value, onChange, error }: GenderPickerProps) {
 
 const styles = StyleSheet.create({
     container: {
-        gap: 4,
+        marginVertical: 8,
     },
     label: {
         fontSize: 16,
         fontWeight: "500",
+        marginBottom: 4,
     },
     pickerContainer: {
         borderWidth: 1,
         borderRadius: 8,
         overflow: "hidden",
+        marginBottom: 4,
     },
     picker: {
-        height: 48,
+        height: 50,
+        paddingHorizontal: 12,
+        justifyContent: "center",
     },
     error: {
         fontSize: 12,
