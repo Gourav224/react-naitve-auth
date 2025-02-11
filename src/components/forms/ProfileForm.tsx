@@ -50,7 +50,6 @@ export function ProfileForm({ user }: ProfileFormProps) {
         try {
             await updateProfile(values);
             setSuccessMessage("Profile updated successfully!");
-            setTimeout(() => setSuccessMessage(""), 3000); // Clear success message after 3 seconds
         } catch (err) {
             setError(err instanceof Error ? err.message : "An error occurred");
         }
@@ -70,7 +69,6 @@ export function ProfileForm({ user }: ProfileFormProps) {
         >
             {({ handleSubmit, values, setFieldValue, errors, touched }) => (
                 <View style={styles.container}>
-                    {/* Avatar Section */}
                     <View style={styles.avatarContainer}>
                         <Avatar
                             source={values.avatar}
@@ -99,7 +97,6 @@ export function ProfileForm({ user }: ProfileFormProps) {
                         </TouchableOpacity>
                     </View>
 
-                    {/* Name Input */}
                     <Input
                         label="Name"
                         value={values.name}
@@ -107,7 +104,6 @@ export function ProfileForm({ user }: ProfileFormProps) {
                         error={touched.name ? errors.name : undefined}
                     />
 
-                    {/* Email Input */}
                     <Input
                         label="Email"
                         value={values.email}
@@ -117,7 +113,6 @@ export function ProfileForm({ user }: ProfileFormProps) {
                         autoCapitalize="none"
                     />
 
-                    {/* Gender Picker */}
                     <GenderPicker
                         value={values.gender}
                         onChange={(value) => setFieldValue("gender", value)}
@@ -136,17 +131,14 @@ export function ProfileForm({ user }: ProfileFormProps) {
                         }
                     />
 
-                    {/* Error Display */}
                     {error ? <Text style={styles.error}>{error}</Text> : null}
 
-                    {/* Success Message */}
                     {successMessage ? (
                         <Text style={styles.successMessage}>
                             {successMessage}
                         </Text>
                     ) : null}
 
-                    {/* Submit Button */}
                     <Button
                         onPress={() => handleSubmit()}
                         title="Update Profile"

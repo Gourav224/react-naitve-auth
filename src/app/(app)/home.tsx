@@ -1,28 +1,17 @@
 import { Avatar } from "@/src/components/ui/Avatar";
 import { useAuth } from "@/src/context/AuthContext";
 import { useTheme } from "@/src/context/ThemeProvider";
-import { useEffect } from "react";
-import { View, Text, StyleSheet, Animated } from "react-native";
+import { View, Text, StyleSheet } from "react-native";
 
 export default function Home() {
     const { user } = useAuth();
     const { theme } = useTheme();
-    const fadeAnim = new Animated.Value(0);
-
-    // Fade-in effect for smooth entrance
-    useEffect(() => {
-        Animated.timing(fadeAnim, {
-            toValue: 1,
-            duration: 1000,
-            useNativeDriver: true,
-        }).start();
-    }, []);
 
     return (
-        <Animated.View
+        <View
             style={[
                 styles.container,
-                { backgroundColor: theme.colors.background, opacity: fadeAnim },
+                { backgroundColor: theme.colors.background },
             ]}
         >
             <View style={styles.header}>
@@ -36,7 +25,7 @@ export default function Home() {
                 </Text>
             </View>
             {/* Add more content here */}
-        </Animated.View>
+        </View>
     );
 }
 

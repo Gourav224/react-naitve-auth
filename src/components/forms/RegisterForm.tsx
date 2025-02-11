@@ -129,7 +129,7 @@ const styles = StyleSheet.create({
         color: "red",
         marginTop: 8,
     },
-    avatarContainer:{
+    avatarContainer: {
         alignItems: "center",
-    }
+    },
 });
